@@ -24,8 +24,8 @@ test_start = int(util.test_start_id/gap_time)
 test_end = int(util.test_end_id/gap_time)
 thred_b = util.threhold
 
-
-valid_anomaly_score = np.zeros((valid_end - valid_start, 1))
+# compute anomaly score on validation and test dataset
+valid_anomaly_score = np.zeros((valid_end - valid_start, 1)) #stores validation score
 test_anomaly_score = np.zeros((test_end - test_start, 1))
 
 matrix_data_path = util.matrix_data_path
@@ -54,6 +54,7 @@ for i in range(valid_start, test_end): # range from test start to the end
 
 	#compute number of broken element in residual matrix
 	select_matrix_error = np.square(np.subtract(select_gt_matrix, select_reconstructed_matrix))
+	# Compute the maximum of reconstruction errors
 	res = select_matrix_error.max(axis=1)
 	#print(res.mean().max().max())
 	#print(res.CooksDistance()) # it doen't work yet

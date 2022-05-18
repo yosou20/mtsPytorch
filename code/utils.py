@@ -8,11 +8,10 @@ min_index = 0 # first time index of ts
 max_index = 20000 # the index of the last observation
 
 #raw_data_path = '../data/synthetic_data_with_anomaly-s-1.csv'  # path to load raw data
-raw_synth_ts_path = '../data/synthetic_data.csv'  # path to load raw data
+raw_synth_ts_path = '../data/synthetic_data.csv'  # path to  synthetic dataset 1
+raw_synth_ts_path1 = '../data/synthetic_data_abn.csv'  # path to synthetic raw dataset 2
 raw_real_ts_path  = '../data/gas_data/' # path to real-world raw data
-model_path = '../MSCRED/'
-#train_ts_path = "../data/train/" # path to train_ts 
-#test_ts_path = "../data/test/" # path to test_ts
+
 reconstructed_ts_path = "../data/reconstructed/" # path to reconstructed ts.
 
 # save data directory
