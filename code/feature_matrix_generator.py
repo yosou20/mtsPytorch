@@ -140,7 +140,7 @@ def feature_and_self_matrices_generator():
     print("Feature matrix generation complete")
 
 # generate feature matrices using single window-size
-def signature_matrices_generation(df, win):
+def feature_matrix_generat(df, win):
     """generate feature matrices using single window-size
 
     Args:
@@ -156,14 +156,14 @@ def signature_matrices_generation(df, win):
         print("The size of win cannot be 0")
 
     raw_data = np.asarray(raw_data)
-    n_feature_matrices = raw_data.shape[1]/gap_time
-    signature_matrices = np.zeros(raw_data.shape[1]/gap_time, raw_data[0], raw_data[0])
+    n_f_matrix = raw_data.shape[1]/gap_time
+    f_matrix = np.zeros(n_f_matrix , raw_data[0], raw_data[0])
 
-    for t in range(win, n_feature_matrices):
+    for t in range(win, n_f_matrix):
         raw_data_t = raw_data[:, t - win:t]
-        signature_matrices[t] = np.dot(raw_data_t, raw_data_t.T) / win
+        f_matrix[t] = np.dot(raw_data_t, raw_data_t.T) / win
 
-    return signature_matrices, raw_data_t
+    return f_matrix
 
 # generate train and test data matrices
 def train_test_split_generator():

@@ -42,6 +42,6 @@ save_model_step = 1 # number of saved train model model
 
 learning_rate = 0.0002 # learning rate default
 
-threhold = 0.005 # Threshold default
+threhold_temp = 0.005 # Threshold default
 
 tfactor = 1.52 #default value

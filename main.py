@@ -115,10 +115,10 @@ if __name__ == '__main__':
     #summary(mscred, (5, 512, 64), 32 )
     #summary(mscred, input_size, batch_size=-1, device='cpu')
     print("Model saving ....")
-    torch.save(sacladmts.state_dict(), "./checkpoints/model2.pth")
+    torch.save(sacladmts.state_dict(), "./train_model/model_final.pth")
    
     # # model testing
-    sacladmts.load_state_dict(torch.load("./checkpoints/model2.pth"))
+    sacladmts.load_state_dict(torch.load("./train_model/model_final.pth"))
     sacladmts.to(device)
     
     test(dataLoader["test"], sacladmts)
