@@ -16,7 +16,7 @@ reconstructed_ts_path = "../data/reconstructed/" # path to reconstructed ts.
 
 #save data directory
 save_data_path = '../data/' 
-matrix_data_path = "../data/feature_matrix/"
+f_matrix_dir = "../data/feature_matrix/"
 
 
 #path to train test files

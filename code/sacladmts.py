@@ -12,13 +12,19 @@ from torchvision import models
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 class CnnEncoder(nn.Module):
+    """Convolutiona encoder module
+
+    Args:
+        nn (_input channels_): _Takes the input_channels as input
+        instanciate a sequential model and add block of conv2d layers_
+    """
     def __init__(self, in_channels_encoder):
         super(CnnEncoder, self).__init__()
         ## Add block 1
         self.block1 = nn.Sequential(
             nn.Conv2d(in_channels_encoder, 32, 3, (1, 1), 1),
             nn.SELU() # utils for vanishing gradient and normalization   
-            #nn.ReLU() #   
+            #nn.ReLU() # use if not SELU
         
         )
         ## Add block 2

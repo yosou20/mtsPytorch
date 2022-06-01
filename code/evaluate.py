@@ -31,23 +31,21 @@ test_anomaly_score = np.zeros((test_end - test_start, 1))
 
 matrix_data_path = util.matrix_data_path
 test_data_path = matrix_data_path + "test_data/"
-reconstructed_data_path = matrix_data_path + "reconstructed_data/"
+reconst_matrix_path = matrix_data_path + "reconst_matrix/"
 criterion = torch.nn.MSELoss()
 error_list = []
 abnormal_points = []
 threshold_temp = []
 for i in range(valid_start, test_end): # range from test start to the end
-	path_temp_1 = os.path.join(test_data_path, "test_data_" + str(i) + '.npy')
-	gt_matrix_temp = np.load(path_temp_1)
+	get_test_matrix = os.path.join(test_data_path, "test_data_" + str(i) + '.npy')
+	gt_matrix_temp = np.load(get_test_matrix)
 	#print(gt_matrix_temp.shape)
 
-	path_temp_2 = os.path.join(reconstructed_data_path,
-	                           "reconstructed_data_" + str(i) + '.npy')
-	#path_temp_2 = os.path.join(reconstructed_data_path, "pcc_matrix_full_test_" + str(i) + '_pred_output.npy')
+	path_temp_2 = os.path.join(reconst_matrix_path,
+	                           "reconst_matrix_" + str(i) + '.npy')
+	
 	reconstructed_matrix_temp = np.load(path_temp_2)	
-	# reconstructed_matrix_temp = np.transpose(reconstructed_matrix_temp, [0, 3, 1, 2])
-	#print(reconstructed_matrix_temp.shape)
-	#first (short) duration scale for evaluation
+	
 	select_gt_matrix = np.array(gt_matrix_temp)[-1][0]  # get last step matrix
 
 	select_reconstructed_matrix = np.array(reconstructed_matrix_temp)[0][0]   
@@ -199,10 +197,10 @@ def deep_anomaly_detector(valid_start, test_end, tfactor =1.52):
     anomaly_dict = {}
     for i in range(valid_start, test_end):
         
-        path_temp_1 = os.path.join(test_data_path, "test_data_" + str(i) + '.npy')
-        gt_matrix_temp = np.load(path_temp_1)
-        path_temp_2 = os.path.join(reconstructed_data_path,
-                            "reconstructed_data_" + str(i) + '.npy')
+        get_test_matrix = os.path.join(test_data_path, "test_data_" + str(i) + '.npy')
+        gt_matrix_temp = np.load(get_test_matrix)
+        path_temp_2 = os.path.join(reconst_matrix_path,
+                            "reconst_matrix_" + str(i) + '.npy')
         reconstructed_matrix_temp = np.load(path_temp_2)
         #get last ste matrix from array of test patrices
         select_gt_matrix = np.array(gt_matrix_temp)[-1][0] 

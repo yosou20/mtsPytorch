@@ -78,21 +78,26 @@ class ConvLSTMCell(nn.Module):
                 Variable(torch.zeros(batch_size, hidden, shape[0], shape[1])).to("cpu"))
 
 
-
-
-
 class ConvLSTM(nn.Module):
     """_summary_
 
     Args:
-        nn (_type_): _description_
+        nn (_input_): _input channel
+        _
 
     Returns:
         _type_: _description_
-    """
-    # input_channels corresponds to the first input feature map
-    # hidden state is a list of succeeding lstm layers.
+    """   
     def __init__(self, input_channels, hidden_channels, kernel_size, step=1, effective_step=[1]):
+        """_summary_
+
+        Args:
+            input_channels (_array_): _sequence matrices as tensor_
+            hidden_channels (_array_): _hidden units_
+            kernel_size (_matrix_): _kernal size_
+            step (int, optional): _description_. Defaults to 1.
+            effective_step (list, optional): _description_. Defaults to [1].
+        """
         super(ConvLSTM, self).__init__()
         self.input_channels = [input_channels] + hidden_channels
         self.hidden_channels = hidden_channels
@@ -145,6 +150,6 @@ if __name__ == '__main__':
 
     output = convlstm(input)
     output = output[0][0].double()
-    print(output.shape)   
-    print("model ready to evaluate")
+    print(output.shape)    # check for output chape
+    
     
