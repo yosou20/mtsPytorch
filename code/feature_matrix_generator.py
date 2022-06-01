@@ -19,7 +19,6 @@ import seaborn as sns
 import plotly.express as px
 from sklearn.metrics import mean_squared_error
 
-
 #========================================================================
 
 # initialized the variables
@@ -75,27 +74,42 @@ raw_data.to_csv('syntetic_data.csv', index=False, header=None)
 #print(max(window_size))
 #Data loading
 #df = pd.read_csv('syntetic_data.csv',header = None, index_col=False)
+#print(df.shape)
+#df = df.iloc[0:10,0:2000]
+#print(df.shape)
 
-f_matrix_ts_path = save_data_path + "matrix_data/"
+f_matrix_ts_path = save_data_path + "feature_matrix/"
 if not os.path.exists(f_matrix_ts_path):
     os.makedirs(f_matrix_ts_path)
 
 # Creating feature and self-matrices
 def feature_and_self_matrices_generator():
-    #Data loading
+    """_generate a feature matrice using a range of window size_
+    """
+    #Data loading raw dataset
     df = pd.read_csv(raw_synth_ts_path1, header = None, index_col=False)
+    #df = df.iloc[0:10,0:2000] # reduce the size of  data here
     df = np.array(df, dtype=np.float64)
-    #print(df.shape[0])
-    # perform MinMaxScaler normalization 
+    print(df.shape[0])
     
-    # scaler = MinMaxScaler()     
+    #============================================================
+    # perform MinMaxScaler normalization     
+    scaler = MinMaxScaler()     
+    scaler = scaler.fit(df)
+    df = scaler.transform(df)
+    #df = np.transpose(df)  # transpose the data if necessary
+    #==============================================================
+    # perform standard normalization
+    # standard normalization    
+    # scaler = StandardScaler()
     # scaler = scaler.fit(df)
-    # df = scaler.transform(df)
-
-    max_value = np.max(df, axis=1)
-    min_value = np.min(df, axis=1)
-    df = (np.transpose(df) - min_value)/(max_value - min_value + 1e-6)
-    df = np.transpose(df) 
+    # df = scaler.transform(df)  # transpose the data if necessary
+    #==============================================================
+    #max_value = np.max(df, axis=1)
+    #min_value = np.min(df, axis=1)
+    #df = (np.transpose(df) - min_value)/(max_value - min_value + 1e-6)
+    #df = np.transpose(df) 
+    
     n_feature = df.shape[0]   # number of features in the dataset
     n_obs = df.shape[1]       # number of observations
     print("Number of features or time-series is: {}".format(n_feature))
@@ -104,16 +118,10 @@ def feature_and_self_matrices_generator():
     
     print("================================================")
     print("Generating feature matrices....")
-    print("================================================")
-    #print(df)    
-    # standard normalization
-    
-    # scaler = StandardScaler()
-    # scaler = scaler.fit(df)
-    # df = scaler.transform(df)
+    print("================================================")       
     # print(df)
-    # Generate features matrices for range of window size
     
+    # Generate features matrices for range of window size    
     for win in window_size:
         matrix_list = []
         print("Feature matrices for window size " + str(win)+ " are created!")
@@ -133,6 +141,15 @@ def feature_and_self_matrices_generator():
 
 # generate feature matrices using single window-size
 def signature_matrices_generation(df, win):
+    """generate feature matrices using single window-size
+
+    Args:
+        df (_ts_): _ Time-series raw data_
+        win (_int_): _winddow size_
+
+    Returns:
+        _matrix_: _feature matrices and self-matrix_
+    """
    
     df = raw_data
     if win == 0:
@@ -146,16 +163,20 @@ def signature_matrices_generation(df, win):
         raw_data_t = raw_data[:, t - win:t]
         signature_matrices[t] = np.dot(raw_data_t, raw_data_t.T) / win
 
-    return signature_matrices
+    return signature_matrices, raw_data_t
 
+# generate train and test data matrices
 def train_test_split_generator():
+    """generate train and test data matrices
+    """
     
     print("================================================")
     print("Generating train test split series....")
     print("================================================")
     
-    # create train data folder
-    f_matrix_ts_path = save_data_path + "matrix_data/"
+    # stored train and test data to a folder
+    f_matrix_ts_path = save_data_path + "feature_matrix/"
+    # train data folder
     train_ts_path = f_matrix_ts_path + "train_data/"
     if not os.path.exists(train_ts_path):
         os.makedirs(train_ts_path)
